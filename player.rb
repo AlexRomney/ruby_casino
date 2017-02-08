@@ -21,7 +21,7 @@ class Player
       puts "\nYou need money in order to do anything at a Casino!\n".colorize(:red)
       player_money
     else
-      puts "\nYou have $#{@bank_roll}! Let's play!".colorize(:green)
+      puts "\nYou have $#{@bank_roll}! Let's play!".colorize(:green); sleep 2
     end
   end
 

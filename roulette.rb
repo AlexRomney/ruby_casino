@@ -5,8 +5,8 @@ class Roulette
     @player = player
     @casino = casino
     @roulette_colors = ["RED", "BLACK"]
-    puts "\nWelcome to Roulette #{player.name}!".colorize(:light_blue)
-    puts "\nYou have $#{player.bank_roll} to play with.\n".colorize(:green)
+    puts "\nWelcome to Roulette #{player.name}!".colorize(:light_blue); sleep 1
+    puts "\nYou have $#{player.bank_roll} to play with.\n".colorize(:green); sleep 2
     roulette_menu
   end
 
@@ -32,7 +32,7 @@ class Roulette
   puts "2) Spin The Wheel"
   puts "3) Cashout And Return To Casino"
   puts "\nPlease pick an option. (1-3)".colorize(:light_blue)
-  user_choice = user_input
+  user_choice = @casino.user_input
 
   case user_choice
     when '1'
@@ -42,25 +42,25 @@ class Roulette
     when '3'
       cashout
     else
-      puts "\nPlease pick a valid menu option.".colorize(:red)
+      puts "\nPlease pick a valid menu option.".colorize(:red); sleep 3
       roulette_menu
     end
   end
 
   def roulette_bet
     puts "\nWhat number do you want to place your bet on? (1-36)".colorize(:light_blue)
-    @number = user_input.to_i
+    @number = @casino.user_input.to_i
     if @number <= 36 && @number != 0
       puts "\nHow much do you want to bet?".colorize(:light_blue)
-      @number_bet = user_input.to_i
+      @number_bet = @casino.user_input.to_i
       if @number_bet == 0
         puts "\nYou can't play without a bet!".colorize(:red)
         roulette_bet
       elsif @number_bet <= @player.bank_roll
-        puts "\nYou are betting $#{@number_bet} on #{@number}.".colorize(:yellow)
+        puts "\nYou are betting $#{@number_bet} on #{@number}.".colorize(:yellow); sleep 2
         roulette_color
       else
-        puts "\nYou don't have enough money! Go to the ATM!".colorize(:red)
+        puts "\nYou don't have enough money! Go to the ATM!".colorize(:red); sleep 3
         @casino.menu
       end
     else
@@ -73,7 +73,7 @@ class Roulette
     puts "\nWhat color do you want to bet on? (1-2)".colorize(:light_blue)
     puts "1) RED"
     puts "2) BLACK"
-    @color = user_input.to_i
+    @color = @casino.user_input.to_i
 
     case @color
     when 1
@@ -90,7 +90,7 @@ class Roulette
 
   def roulette_color_bet
     puts "\nWhat do you want to bet?".colorize(:light_blue)
-    @color_bet = user_input.to_i
+    @color_bet = @casino.user_input.to_i
     if @color_bet == 0
       puts "\nYou need to bet something!".colorize(:red)
       roulette_color_bet
@@ -99,19 +99,19 @@ class Roulette
       puts "\nYou've been kicked out of the casino for trying to make a bet you can't afford. Sucks to suck!".colorize(:yellow)
       exit
     else
-      puts "\nYour Bet: $#{@number_bet} on #{@number} and $#{@color_bet} on #{@roulette_colors[@color - 1]}".colorize(:yellow)
+      puts "\nYour Bet: $#{@number_bet} on #{@number} and $#{@color_bet} on #{@roulette_colors[@color - 1]}".colorize(:yellow); sleep 3
       roulette_menu
     end
   end
 
   def roulette_spin
     if @number == nil
-      puts "\nYou need to place your bets first!".colorize(:red)
+      puts "\nYou need to place your bets first!".colorize(:red); sleep 2
       roulette_menu
     else
-      puts "\nNo more bets!".colorize(:red)
-      puts "\nYour Bets: #{@number} #{@roulette_colors[@color - 1]}".colorize(:yellow); sleep 2
-      puts "\nSpinning..."; sleep 3
+      puts "\nNo more bets!".colorize(:red); sleep 2
+      puts "\nYour Bet: #{@number} #{@roulette_colors[@color - 1]}".colorize(:yellow); sleep 2
+      puts "\nSpinning...".colorize(:green); sleep 3
       @game_number = rand(1..36)
       @game_color = @roulette_colors.sample
       puts "\nDealer: #{@game_number} #{@game_color}!".colorize(:light_blue); sleep 1
@@ -153,22 +153,17 @@ class Roulette
 
   def play_again
     puts "\nWant to play again? (yes/no)".colorize(:light_blue)
-    if user_input == 'yes'
+    if @casino.user_input == 'yes'
       roulette_menu
     else
-      puts "\nThank you for playing! Come back soon #{player.name}!".colorize(:green)
+      puts "\nThank you for playing! Come back soon #{player.name}!".colorize(:green); sleep 3
       @casino.menu
     end
   end
 
   def cashout
     puts "\nYou have $#{player.bank_roll} left.".colorize(:light_blue)
-    puts "\nHope you enjoyed your time here at Roulette! See you next time #{player.name}!".colorize(:green)
+    puts "\nHope you enjoyed your time here at Roulette! See you next time #{player.name}!".colorize(:green); sleep 3
     @casino.menu
-  end
-
-  def user_input
-    print '> '
-    gets.strip
   end
 end

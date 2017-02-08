@@ -10,7 +10,7 @@ class Casino
 
   def initialize
     @player_arr = []
-    puts "*** RUBY CASINO ***\n".colorize(:green)
+    puts "\n*** RUBY CASINO ***\n".colorize(:green)
     @player = Player.new
     @player_arr << @player
     menu
@@ -18,23 +18,23 @@ class Casino
 
   def menu
     puts "\n---- CASINO GAMES ----".colorize(:green)
-    games = "\nRoulette\nSlots\nHighlow\nATM\nView Players\nCashout and Go Home"
+    games = "\n1) Roulette\n2) Slots\n3) Highlow\n4) ATM\n5) View Players\n6) Cashout and Go Home"
     puts games
     puts "\nWhere would you like to go?".colorize(:light_blue)
     picked_game = user_input.downcase
 
     case picked_game
-      when 'roulette'
+      when 'roulette', '1'
         Roulette.new(@player, self)
-      when 'slots'
+      when 'slots', '2'
         Slots.new(@player, self)
-      when 'highlow'
+      when 'highlow', '3'
         Highlow.new(@player, self)
-      when 'atm'
+      when 'atm', '4'
         atm
-      when 'view', 'players', 'view players'
+      when 'view', 'players', 'view players', '5'
         player_menu
-      when 'cashout', 'exit', 'go', 'home', 'go home'
+      when 'cashout', 'exit', 'go', 'home', 'go home', '6'
         total = player.bank_roll
         puts "\nHere is your money: $#{total}".colorize(:green)
         puts "\nThank you for playing. Come back soon!".colorize(:light_blue)
@@ -104,13 +104,13 @@ class Casino
     puts "\nHow much money do you want to take out?".colorize(:light_blue)
     money = user_input.to_i
     if money > 500
-      puts "You can only take out $500 at a time.".colorize(:red)
+      puts "\nYou can only take out $500 at a time.".colorize(:red)
       atm
     end
     player.bank_roll = player.bank_roll + money
-    puts "Please wait while we process your card...".colorize(:yellow)
-    puts "Your transaction was successfull.".colorize(:green)
-    puts "You now have $#{player.bank_roll}".colorize(:light_blue)
+    puts "\nPlease wait while we process your transaction...".colorize(:yellow); sleep 2
+    puts "\nYour transaction was successfull.".colorize(:green)
+    puts "\nYou now have $#{player.bank_roll}".colorize(:light_blue); sleep 3
     menu
   end
 
