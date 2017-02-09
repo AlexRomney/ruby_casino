@@ -18,7 +18,7 @@ class Casino
 
   def menu
     puts "\n---- CASINO GAMES ----".colorize(:green)
-    games = "\n1) Roulette\n2) Slots\n3) Highlow\n4) ATM\n5) View Players\n6) Cashout and Go Home"
+    games = "\n1) Roulette\n2) Slots\n3) Highlow\n4) Feelin Lucky?\n5) ATM\n6) View Players\n7) Cashout and Go Home"
     puts games
     puts "\nWhere would you like to go?".colorize(:light_blue)
     picked_game = user_input.downcase
@@ -30,11 +30,13 @@ class Casino
         Slots.new(@player, self)
       when 'highlow', '3'
         Highlow.new(@player, self)
-      when 'atm', '4'
+      when 'feelin', 'lucky', 'feelin lucky', '4'
+        feelin_lucky
+      when 'atm', '5'
         atm
-      when 'view', 'players', 'view players', '5'
+      when 'view', 'players', 'view players', '6'
         player_menu
-      when 'cashout', 'exit', 'go', 'home', 'go home', '6'
+      when 'cashout', 'exit', 'go', 'home', 'go home', '7'
         total = player.bank_roll
         puts "\nHere is your money: $#{total}".colorize(:green)
         puts "\nThank you for playing. Come back soon!".colorize(:light_blue)
@@ -60,7 +62,7 @@ class Casino
         if @player_arr.count < 4
           @player = Player.new
           @player_arr << @player
-          puts "\nYou are now #{player.name.capitalize}!".colorize(:green)
+          puts "\nYou are now #{player.name.capitalize}!".colorize(:yellow); sleep 2
         else
           puts "Sorry, only 4 players allowed!"
         end
@@ -93,11 +95,29 @@ class Casino
           puts "Player does not exist".colorize(:red)
           player_menu
         end
-        puts "\nYou are now #{player.name.capitalize}!".colorize(:green)
+        puts "\nYou are now #{player.name.capitalize}!".colorize(:yellow); sleep 2
         player_menu
       else
         player_menu
       end
+  end
+
+  def feelin_lucky
+    puts "\nLet's see how lucky you really are!".colorize(:light_blue); sleep 2
+    @lucky_roll = 1 + rand(6)
+    print "\nThe dice drops: "; sleep 2
+    puts "#{@lucky_roll}"
+    if @lucky_roll % 2 == 0
+      puts "\nIt's your lucky day! You just won $500!".colorize(:green); sleep 2
+      player.bank_roll = player.bank_roll + 500
+      puts "You have $#{player.bank_roll} left.".colorize(:yellow); sleep 3
+      menu
+    else
+      puts "\nSorry buddy, today's not your lucky day! You just lost $100. :(".colorize(:red); sleep 2
+      player.bank_roll = player.bank_roll - 100
+      puts "\nYou have $#{player.bank_roll}!".colorize(:yellow); sleep 3
+      menu
+    end
   end
 
   def atm
