@@ -110,7 +110,7 @@ class Casino
     if @lucky_roll % 2 == 0
       puts "\nIt's your lucky day! You just won $500!".colorize(:green); sleep 2
       player.bank_roll = player.bank_roll + 500
-      puts "You have $#{player.bank_roll} left.".colorize(:yellow); sleep 3
+      puts "You have $#{player.bank_roll}!".colorize(:yellow); sleep 3
       menu
     else
       puts "\nSorry buddy, today's not your lucky day! You just lost $100. :(".colorize(:red); sleep 2
